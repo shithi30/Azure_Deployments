@@ -14,7 +14,7 @@ import time
 import os
 import json
 
-# Function App obj.
+# Function App obj. - kowm er jonno
 app = func.FunctionApp()
 
 # job template - 01
