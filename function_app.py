@@ -18,7 +18,7 @@ import json
 app = func.FunctionApp()
 
 # job template - 01
-@app.timer_trigger(schedule = "0 40 6 * * *", arg_name = "myTimer", run_on_startup = True, use_monitor = False) 
+@app.timer_trigger(schedule = "0 40 14 * * *", arg_name = "myTimer", run_on_startup = True, use_monitor = False) 
 def flyer_notifier(myTimer: func.TimerRequest) -> None:
     if myTimer.past_due: logging.info("The timer is past due!")
 
@@ -102,7 +102,7 @@ def flyer_notifier(myTimer: func.TimerRequest) -> None:
     logging.info("update - Python timer trigger function executed.")
 
 # job template - 02
-@app.timer_trigger(schedule = "0 0 5 * * *", arg_name = "myTimer", run_on_startup = True, use_monitor = False) 
+@app.timer_trigger(schedule = "0 0 13 * * *", arg_name = "myTimer", run_on_startup = True, use_monitor = False) 
 def sample_daily_runner(myTimer: func.TimerRequest) -> None:
     if myTimer.past_due: logging.info("The timer is past due!")
 
