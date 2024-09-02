@@ -75,7 +75,7 @@ def flyer_notifier(myTimer: func.TimerRequest) -> None:
 
     # from, to, body
     sender_email = "shithi30@gmail.com"
-    recivr_email = ["shithi30@outlook.com", "purnabchowdhury@gmail.com"] if time.strftime("%A") == "Saturday" else ["shithi30@outlook.com"]
+    recivr_email = ["shithi30@outlook.com", "purnabchowdhury@gmail.com"] if time.strftime("%A") in ["Saturday", "Sunday"] else ["shithi30@outlook.com"]
     body = '''
     Dear housemate,<br><br>
     Summarized below are, today's best household flyer deals (full list of relevant household offers, <a href="https://docs.google.com/spreadsheets/d/1Fokcum9d__mAxw8PEN_djL34UL9l5Uq8j5LCPwjAE9Y/edit?gid=1326928732#gid=1326928732">here</a>). All flyer items can be found <a href="https://docs.google.com/spreadsheets/d/1Fokcum9d__mAxw8PEN_djL34UL9l5Uq8j5LCPwjAE9Y/edit?gid=0#gid=0">here</a>.
