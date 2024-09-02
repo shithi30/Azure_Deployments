@@ -89,7 +89,7 @@ def flyer_notifier(myTimer: func.TimerRequest) -> None:
 
     # email obj.
     html_msg = MIMEText(body, "html")
-    html_msg["Subject"] = "Home Flyer Deals: "  + time.strftime("%d-%b-%y")
+    html_msg["Subject"] = "Home Flyer Deals: " + time.strftime("%d-%b-%y")
     html_msg["From"] = "Shithi Maitra"
     html_msg["To"] = ", ".join(recivr_email)
 
