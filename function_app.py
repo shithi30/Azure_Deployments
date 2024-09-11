@@ -13,6 +13,10 @@ import random
 import time
 import os
 import json
+# import - selenium
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.options import Options
 
 # Function App obj.
 app = func.FunctionApp()
@@ -100,14 +104,36 @@ def flyer_notifier(myTimer: func.TimerRequest) -> None:
 
     ## logic ends
     logging.info("update - Python timer trigger function executed.")
-
+    
 # job template - 02
-@app.timer_trigger(schedule = "0 0 13 * * *", arg_name = "myTimer", run_on_startup = False, use_monitor = True) 
-def sample_daily_runner(myTimer: func.TimerRequest) -> None:
+@app.timer_trigger(schedule = "0 */30 * * * *", arg_name = "myTimer", run_on_startup = False, use_monitor = True)
+def cluster_activator(myTimer: func.TimerRequest) -> None:
     if myTimer.past_due: logging.info("The timer is past due!")
 
     ## logic starts
-    print("Good morning! It is now UTC " + time.strftime("%d-%b-%y, %I:%M %p"))
-    ## logic ends
 
+    # pref.
+    chrome_options = Options()
+    chrome_options.add_argument("no-sandbox")
+    chrome_options.add_argument("headless")
+    chrome_options.add_argument("disable-dev-shm-usage")
+
+    # open window
+    driver = webdriver.Chrome(options = chrome_options)
+    driver.implicitly_wait(10)
+
+    # notebook
+    driver.get("https://community.cloud.databricks.com/?o=924599453726095#notebook/4004368016220956")
+
+    # login
+    driver.find_element(By.ID, "login-email").send_keys("shithi30@outlook.com")
+    driver.find_element(By.ID, "login-password").send_keys(os.getenv("DATABRICKS_PASS") + "\n")
+
+    # run
+    driver.find_element(By.XPATH, ".//button[@data-testid='notebook-run-all-button']").click()
+
+    # close window
+    driver.close()
+
+    ## logic ends
     logging.info("Python timer trigger function executed.")
