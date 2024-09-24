@@ -11,3 +11,4 @@ google-auth-oauthlib
 pandas
 pretty-html-table
 selenium
+beautifulsoup4
