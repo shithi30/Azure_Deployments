@@ -140,7 +140,7 @@ def cluster_activator(myTimer: func.TimerRequest) -> None:
     ## logic ends
     logging.info("Python timer trigger function executed.")
 
-@app.timer_trigger(schedule = "0 */5 * * * *", arg_name = "myTimer", run_on_startup = False, use_monitor = True)
+@app.timer_trigger(schedule = "0 */10 * * * *", arg_name = "myTimer", run_on_startup = False, use_monitor = True)
 def visa_appt_checker(myTimer: func.TimerRequest) -> None:
     if myTimer.past_due: logging.info("The timer is past due!")
     ## logic starts
@@ -154,7 +154,7 @@ def visa_appt_checker(myTimer: func.TimerRequest) -> None:
 
     # window
     driver = webdriver.Chrome(options = chrome_options)
-    driver.implicitly_wait(3)
+    driver.implicitly_wait(3 * 4)
     achains = ActionChains(driver)
 
     # url
@@ -178,7 +178,7 @@ def visa_appt_checker(myTimer: func.TimerRequest) -> None:
     achains.move_to_element(elem).click().perform()
 
     # continue
-    elem = driver.find_element(By.XPATH, ".//a[@class='button primary small']")
+    elem = driver.find_element(By.LINK_TEXT, "Continue")
     elem.click()
 
     # reschedule 1
@@ -221,9 +221,13 @@ def visa_appt_checker(myTimer: func.TimerRequest) -> None:
         time.sleep(3)
         
         # record
-        booked_date = closest_date = "2025-12-08"
-        if available_on_month > 0: closest_date = datetime.strptime(soup[0]["data-year"] + "-" + str(int(soup[0]["data-month"]) + 1) + "-" + soup[0].get_text(), "%Y-%m-%d").strftime("%Y-%m-%d")
-        if closest_date < booked_date: date_df = pd.concat([date_df, pd.DataFrame([[consulate, closest_date, (datetime.now() - timedelta(hours = 4)).strftime("%Y-%m-%d %I:%M %p")]], columns = date_df.columns)], ignore_index = True)
+        if available_on_month == 0: continue
+        closest_date = datetime.strptime(soup[0]["data-year"] + "-" + str(int(soup[0]["data-month"]) + 1) + "-" + soup[0].get_text(), "%Y-%m-%d").strftime("%Y-%m-%d")
+        date_df = pd.concat([date_df, pd.DataFrame([[consulate, closest_date, (datetime.now() - timedelta(hours = 4)).strftime("%Y-%m-%d %I:%M %p")]], columns = date_df.columns)], ignore_index = True)
+
+    # see & filter
+    logging.info("\n%s", date_df.to_string())
+    date_df = date_df[date_df["closest_date"] < "2025-12-08"]
 
     # email - from, to, body
     sender_email = "shithi30@gmail.com"
