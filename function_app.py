@@ -140,7 +140,7 @@ def cluster_activator(myTimer: func.TimerRequest) -> None:
     ## logic ends
     logging.info("Python timer trigger function executed.")
 
-@app.timer_trigger(schedule = "0 */10 * * * *", arg_name = "myTimer", run_on_startup = False, use_monitor = True)
+@app.timer_trigger(schedule = "0 */6 * * * *", arg_name = "myTimer", run_on_startup = False, use_monitor = True)
 def visa_appt_checker(myTimer: func.TimerRequest) -> None:
     if myTimer.past_due: logging.info("The timer is past due!")
     ## logic starts
