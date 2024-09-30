@@ -193,7 +193,7 @@ def visa_appt_checker(myTimer: func.TimerRequest) -> None:
 
     # acc.
     date_df = pd.DataFrame(columns = ["consulate", "closest_date", "report_time"])
-    consulates = ["Calgary", "Halifax", "Montreal", "Ottawa", "Quebec City", "Toronto", "Vancouver"]
+    consulates = ["Vancouver", "Calgary", "Halifax", "Quebec City", "Montreal", "Ottawa", "Toronto"]
 
     # consulate
     for consulate in consulates: 
